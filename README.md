@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/matthewp/fs-cheerio.svg?branch=master)](https://travis-ci.org/matthewp/fs-cheerio)
+[![npm version](https://badge.fury.io/js/fs-cheerio.svg)](http://badge.fury.io/js/fs-cheerio)
+
 # fs-cheerio
 
 DOM manipulation file system utilities. Combines Node's [fs](https://nodejs.org/api/fs.html) module with [cheerio](https://github.com/cheeriojs/cheerio).
