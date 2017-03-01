@@ -1,33 +1,18 @@
+var asap = require("pdenodeify");
 var fs = require("fs");
 var cheerio = require("cheerio");
+var readFile = asap(fs.readFile);
+var writeFile = asap(fs.writeFile);
 
-exports.readFile = function(filePath, options, callback){
-  if(arguments.length === 2) {
-    callback = options;
-    options = undefined;
-  }
-
-  fs.readFile(filePath, options, function(err, contents){
-    if(err) return callback(err);
-
-    try {
-      callback(null, cheerio.load(contents));
-    } catch(err) {
-      callback(err);
-    }
+exports.readFile = function(filePath, options){
+  return readFile(filePath, options).then(function(contents){
+    return cheerio.load(contents);
   });
 };
 
-exports.writeFile = function(filePath, $, options, callback) {
-  if(arguments.length === 3) {
-    callback = options;
-    options = undefined;
-  }
-
-  try {
+exports.writeFile = function(filePath, $, options) {
+  return Promise.resolve().then(function(){
     var contents = $.html();
-    fs.writeFile(filePath, options, callback);
-  } catch(err) {
-    callback(err);
-  }
-}
+    return writeFile(filePath, options);
+  });
+};
