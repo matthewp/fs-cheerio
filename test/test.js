@@ -1,44 +1,27 @@
-var fs = require("fs");
-var fsc = require("../fs-cheerio");
-var test = require("tape");
-var tmp = require("tmp");
+const asap = require("pdenodeify");
+const fs = require("fs");
+const fsc = require("../fs-cheerio");
+const test = require("tape");
+const tmp = require("tmp");
 
-test("opens an html file to a cheerio object", function(t){
+test("opens an html file to a cheerio object", async function(t){
   t.plan(1);
 
-  fsc.readFile(__dirname + "/example.html")
-  .then(function($){
-    t.equal($("#app").text(), "hello world", "jquery object works");
-  })
-  .catch(function(err){
-    t.ok(!err, "there is not an error");
-  });
+  let $ = await fsc.readFile(__dirname + "/example.html");
+  t.equal($("#app").text(), "hello world", "jquery object works");
 });
 
-test("can write to a file", function(t){
+test("can write to a file", async function(t){
   t.plan(2);
 
-  fsc.readFile(__dirname + "/example.html")
-  .then(function($){
-    $("#app").text("hi there");
+  let $ = await fsc.readFile(__dirname + "/example.html");
+  $("#app").text("hi there");
 
-    var tmpPath = new Promise(function(resolve, reject){
-      tmp.file(function(err, filePath){
-        if(err) return reject(err);
-        resolve(filePath);
-      });
-    })
+  let tmpPath = await asap(tmp.file)();
+  await fsc.writeFile(tmpPath, $);
 
-    return tmpPath.then(function(filePath){
-      return fsc.writeFile(filePath, $).then(function(){
-        fs.stat(filePath, function(err, stat){
-          t.ok(!err);
-          t.ok(stat, "file does exist");
-        });
-      });
-    });
-  })
-  .catch(function(err){
-    t.ok(!err, "there is no error in writing");
+  fs.stat(tmpPath, function(err, stat){
+    t.ok(!err);
+    t.ok(stat, "file does exist");
   });
 });
