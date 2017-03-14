@@ -12,16 +12,16 @@ test("opens an html file to a cheerio object", async function(t){
 });
 
 test("can write to a file", async function(t){
-  t.plan(2);
+  t.plan(1);
 
   let $ = await fsc.readFile(__dirname + "/example.html");
   $("#app").text("hi there");
 
   let tmpPath = await asap(tmp.file)();
-  await fsc.writeFile(tmpPath, $);
 
-  fs.stat(tmpPath, function(err, stat){
-    t.ok(!err);
-    t.ok(stat, "file does exist");
-  });
+
+  await fsc.writeFile(tmpPath, $);
+  let cont = await asap(fs.readFile)(tmpPath, "utf8");
+
+  t.ok(/hi there/.test(cont), "contains the contents");
 });
