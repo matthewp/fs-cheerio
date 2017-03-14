@@ -13,6 +13,6 @@ exports.readFile = function(filePath, options){
 exports.writeFile = function(filePath, $, options) {
   return Promise.resolve().then(function(){
     var contents = $.html();
-    return writeFile(filePath, options);
+    return writeFile(filePath, contents, options);
   });
 };
