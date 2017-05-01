@@ -24,7 +24,7 @@ Read from a file and create a cheerio object that can be manipulated. Returns a 
 ```js
 const fsc = require("fs-cheerio");
 
-fs.readFile(__dirname + "/example.html").then(function($){
+fsc.readFile(__dirname + "/example.html").then(function($){
   // $ is a jquery/cheerio object that can be manipulated.
 });
 ```
@@ -35,7 +35,7 @@ This works even better with async/await:
 const fsc = require("fs-cheerio");
 
 (async function(){
-  let $ = await fs.readFile(__dirname + "/example.html");
+  let $ = await fsc.readFile(__dirname + "/example.html");
 })();
 ```
 
