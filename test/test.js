@@ -1,4 +1,4 @@
-const asap = require("pdenodeify");
+const asap = require("util").promisify;
 const fs = require("fs");
 const fsc = require("../fs-cheerio");
 const test = require("tape");

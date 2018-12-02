@@ -1,4 +1,4 @@
-var asap = require("pdenodeify");
+var asap = require("util").promisify;
 var fs = require("fs");
 var cheerio = require("cheerio");
 var readFile = asap(fs.readFile);
