@@ -30,6 +30,6 @@
   "devDependencies": {
     "tap-spec": "^5.0.0",
     "tape": "^4.2.2",
-    "tmp": "0.1.0"
+    "tmp": "0.2.1"
   }
 }
